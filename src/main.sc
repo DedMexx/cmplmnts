@@ -1,12 +1,13 @@
 require: slotfilling/slotFilling.sc
   module = sys.zb-common
   
-require: func.js
+# require: func.js
+
 theme: /
-    state: /start
+    state: Start
         q!: прив
         a: Привет!
-        script:
-            $temp.compliment = getCompliment();
-        a: {{$temp.compliment}}
+        # script:
+        #     $temp.compliment = getCompliment();
+        # a: {{$temp.compliment}}
     
