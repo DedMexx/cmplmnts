@@ -4,10 +4,9 @@ require: slotfilling/slotFilling.sc
 # require: func.js
 
 theme: /
-    state: Start
-        q!: прив
+    state: Welcome
+        q!: $regex</start>
+        q!: *start
+        q!: (прив*/здравств*/здаров*)
         a: Привет!
-        # script:
-        #     $temp.compliment = getCompliment();
-        # a: {{$temp.compliment}}
     

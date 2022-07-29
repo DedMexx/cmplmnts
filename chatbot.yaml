@@ -5,9 +5,9 @@ entryPoint: main.sc
 botEngine: v2
 language: ru
 
-# tests:
-#   include:
-#     - test.xml
+tests:
+  include:
+    - test.xml
 
 sts:
     noMatchThreshold: 0.2
