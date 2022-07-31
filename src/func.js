@@ -13,5 +13,5 @@ function getCompliment() {
     //     return false;
     // }
     var response = $http.get("https://complimentr.com/api");
-    return response;
+    return response.compliment;
 }

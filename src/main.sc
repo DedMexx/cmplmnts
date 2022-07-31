@@ -11,5 +11,5 @@ theme: /
         a: Привет!
         script: 
             $temp.compliment = getCompliment();
-        a: {{$temp.compliment.compliment}}
+        a: {{$temp.compliment}}
     
