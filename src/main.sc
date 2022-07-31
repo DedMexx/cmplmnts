@@ -36,7 +36,10 @@ theme: /
             a: Привет!
             a: {{$temp.goodTimeOfDay}}
             a: Доброго времени суток!
-        a: {{$injector.botDescription}}
+        if: !$session.heKnowMe
+            a: {{$injector.botDescription}}
+        script:
+            $session.heKnowMe = true;
             
         script: 
             $temp.somethingFun = getSomethingFun(11);
