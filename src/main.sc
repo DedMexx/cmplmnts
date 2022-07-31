@@ -1,6 +1,9 @@
 require: slotfilling/slotFilling.sc
   module = sys.zb-common
 
+require: dateTime/dateTime.sc
+  module = sys.zb-common
+
 require: patterns.sc
   module = sys.zb-common
   
@@ -15,8 +18,20 @@ theme: /
         q!: $hello
         script:
             var timestamp = moment($jsapi.currentTime());
-            $temp.time = timestamp.format("HH:mm:ss");
-        a: Сейчас: {{ $temp.time }}
+            var hour = Number(timestamp.format("HH"));
+            if (hour >= 5 && hour < 11) {
+                $temp.goodTimeOfDay = 'Доброе утро!';     
+            }
+            else if (hour >= 11 && hour < 17) {
+                $temp.goodTimeOfDay = 'Добрый день!';
+            }
+            else if (hour >= 17 && hour < 23) {
+                $temp.goodTimeOfDay = 'Добрый вечер!';
+            }
+            else {
+                $temp.goodTimeOfDay = 'Доброй ночи!';     
+            }
+        a: {{$temp.goodTimeOfDay}}
         # random:
         #     a: Здравствуй!
         #     a: Привет!
