@@ -18,7 +18,7 @@ theme: /
         q!: $hello
         script:
             var timestamp = moment($jsapi.currentTime());
-            var hour = Number(timestamp.format("HH"));
+            var hour = Number(timestamp.format("HH")) + 2; // Прибавляем до московского времени (почему то изначально на 2 часа меньше)
             if (hour >= 5 && hour < 11) {
                 $temp.goodTimeOfDay = 'Доброе утро!';     
             }
@@ -31,11 +31,12 @@ theme: /
             else {
                 $temp.goodTimeOfDay = 'Доброй ночи!';     
             }
-        a: {{$temp.goodTimeOfDay}}
-        # random:
-        #     a: Здравствуй!
-        #     a: Привет!
-            
+        random:
+            a: Здравствуй!
+            a: Привет!
+            a: {{$temp.goodTimeOfDay}}
+            a: Доброго времени суток!
+        a: {{$injector.botDescription}}
             
         script: 
             $temp.somethingFun = getSomethingFun(11);

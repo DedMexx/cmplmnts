@@ -8,6 +8,9 @@ language: ru
 tests:
   include:
     - test.xml
+    
+injector:
+    botDescription: Я бот, который может помочь тебе подобрать рассказ, анекдот, тост, статус и многое другое! Или же я просто подниму тебе настроение
 
 sts:
     noMatchThreshold: 0.2
