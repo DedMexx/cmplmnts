@@ -10,6 +10,16 @@ theme: /
         q!: (прив*/здравств*/здаров*)
         a: Привет!
         script: 
-            $temp.compliment = getCompliment();
-        a: {{$temp.compliment}}
+            $temp.somethingFun = getSomethingFun(1);
+        # if: $temp.somethingFun
+        a: {{$temp.somethingFun}}
+        # else:
+        #     script:
+        #         $jsapi.startSession();
+        #         $response.replies = $response.replies || [];
+        #         $response.replies.push({
+        #             type: "image",
+        #             imageUrl: "https://i.ytimg.com/vi/JqLz0ULmGUY/maxresdefault.jpg",
+        #             text: "К сожалению, в данный момент наш сервис поиска комплиментов не работает. Приносим свои извинения."
+        #         });
     

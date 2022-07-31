@@ -1,17 +1,12 @@
-// function getCompliment() {
-// 	var xhr = new XMLHttpRequest();
-// 	xhr.open('GET', 'https://complimentr.com/api', false);
-// 	xhr.send();
-// 	if (xhr.status != 200) {
-// 		return 'Извините, но в данный момент наш сервис по генерации комплиментов недоступен'
-// 	}
-// 	else { return xhr.response.slice(15, -2); }
-// }
-function getCompliment() {
-    // var response = $http.get("https://complimentr.com/api", {timeout: 15000});
-    // if (!response.isOk || !response.data) {
-    //     return false;
-    // }
-    var response = $http.get("https://complimentr.com/api");
-    return response.compliment;
+function getSomethingFun(index) {
+    var response = $http.get('http://rzhunemogu.ru/RandJSON.aspx?CType=${index}', {
+        timeout: 12000,
+        query: {
+            index: index
+        }
+    });
+    if (!response.isOk || !response.data) {
+        return false;
+    }
+    return response;
 }
