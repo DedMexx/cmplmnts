@@ -1,6 +1,8 @@
 require: slotfilling/slotFilling.sc
   module = sys.zb-common
-  
+
+require: localPatterns.sc
+
 require: func.js
 
 theme: /
