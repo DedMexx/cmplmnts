@@ -1,6 +1,9 @@
 require: slotfilling/slotFilling.sc
   module = sys.zb-common
 
+require: patterns.sc
+  module = sys.zb-common
+  
 require: localPatterns.sc
 
 require: func.js
@@ -9,8 +12,16 @@ theme: /
     state: Welcome
         q!: $regex</start>
         q!: *start
-        q!: (прив*/здравств*/здаров*)
-        a: Привет!
+        q!: $hello
+        script:
+            var timestamp = moment($jsapi.currentTime());
+            $temp.time = timestamp.format("HH:mm:ss");
+        a: Сейчас: {{ $temp.time }}
+        # random:
+        #     a: Здравствуй!
+        #     a: Привет!
+            
+            
         script: 
             $temp.somethingFun = getSomethingFun(11);
         if: $temp.somethingFun
