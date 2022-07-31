@@ -13,6 +13,11 @@ theme: /
             $temp.somethingFun = getSomethingFun(1);
         # if: $temp.somethingFun
         a: {{$temp.somethingFun}}
+        script:
+            log($temp.somethingFun);
+            log($temp.somethingFun).data;
+            log($temp.somethingFun).content;
+            log($temp.somethingFun).data.content;
         # else:
         #     script:
         #         $jsapi.startSession();
