@@ -18,8 +18,8 @@ init:
 
 theme: /
     state: Welcome
-        q!: $regex</start>
-        q: *start || fromState = /Remind, onlyThisState = true
+        q: $regex</start> || fromState = /Remind, onlyThisState = true
+        q!: *start
         q: $hello || fromState = /Remind, onlyThisState = true
         script:
             var timestamp = moment($jsapi.currentTime());
