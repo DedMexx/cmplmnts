@@ -11,13 +11,17 @@ require: localPatterns.sc
 
 require: func.js
 
+init:
+    bind("postProcess", function($context) {
+        $context.session.lastState = $context.currentState;
+    })
+
 theme: /
     state: Welcome
         q!: $regex</start>
         q!: *start
         q!: $hello
         script:
-            $jsapi.startSession();
             var timestamp = moment($jsapi.currentTime());
             var hour = Number(timestamp.format("HH")) + 2; // Прибавляем до московского времени (почему то изначально на 2 часа меньше)
             if (hour >= 5 && hour < 11) {
@@ -40,25 +44,31 @@ theme: /
         if: !$client.heKnowMe
             go!: /Description
         else:
-            buttons:
-                "Напомни кто ты" -> /Description
-                "Перейти к работе" -> /AdultOrdinaryChoice
+            go!: /Remind
         script:
             $client.heKnowMe = true;
             
-    state: CatchAll || noContext = true
-        event!: noMatch
-        a: Извините, я вас не понял. Переформулируйте, пожалуйста.
-        go!: {{$session.lastState}}
+    state: Remind
+        a: Напомнить тебе, кто я, или перейдём к работе?
+        buttons:
+            "Напомни кто ты" -> /Description
+            "Перейти к работе" -> /AdultOrdinaryChoice
         
     state: Description
         q: $whoYou
         a: {{$injector.botDescription}}
+        a: Ну что, начнём?
         buttons:
             "Перейти к работе" -> /AdultOrdinaryChoice
+            
     state: AdultOrdinaryChoice
         q: $startWork
         a: Начнём
+    
+    state: CatchAll || noContext = true
+        event!: noMatch
+        a: Извините, я вас не понял. Переформулируйте, пожалуйста.
+        go!: {{$session.lastState}}
         
         
         
