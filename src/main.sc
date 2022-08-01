@@ -42,36 +42,44 @@ theme: /
             a: {{$temp.goodTimeOfDay}}
             a: Доброго времени суток!
         if: !$client.heKnowMe
-            go!: /Description
+            go!: /Remind/Description
         else:
             go!: /Remind
         script:
             $client.heKnowMe = true;
             
     state: Remind
+        q: Отмена
         a: Напомнить тебе, кто я, или перейдём к работе?
         buttons:
-            "Напомни кто ты" -> /Description
-            "Перейти к работе" -> /AdultOrdinaryChoice
-     
+            "Напомни кто ты" -> /Remind/Description
+            "Перейти к работе" -> ../AdultOrdinaryChoice
         state: Description
             q: $whoYou
             a: {{$injector.botDescription}}
             a: Ну что, начнём?
             buttons:
                 "Перейти к работе" -> /AdultOrdinaryChoice
-                
-        state: AdultOrdinaryChoice
-            q: $startWork
-            a: Хорошо, начнём!
-            go!: /startWork
+
             
-    state: startWork
-        
+    state: AdultOrdinaryChoice
+        q: $startWork
+        a: Хорошо, начнём!
     
     state: CatchAll || noContext = true
         event!: noMatch
         a: Извините, я вас не понял. Переформулируйте, пожалуйста.
+        go!: {{$session.lastState}}
+    
+    state: CatchBadWords || NoContext = true
+        q!: * $obsceneWord *
+        script:
+            $response.replies = $response.replies || [];
+            $response.replies.push({
+                type: "image",
+                imageUrl: "https://fikiwiki.com/uploads/posts/2022-02/1644818975_36-fikiwiki-com-p-kartinki-ti-ne-khochesh-so-mnoi-obshchatsy-39.jpg",
+                text: "Пожалуйста, не обижайте меня, я ведь хочу вам помочь :)"
+            });
         go!: {{$session.lastState}}
         
         
