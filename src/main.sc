@@ -36,22 +36,30 @@ theme: /
             a: Привет!
             a: {{$temp.goodTimeOfDay}}
             a: Доброго времени суток!
-        if: !$session.heKnowMe
-            a: {{$injector.botDescription}}
-        script:
-            $session.heKnowMe = true;
-            
-        script: 
-            $temp.somethingFun = getSomethingFun(11);
-        if: $temp.somethingFun
-            a: {{$temp.somethingFun}}
+        if: !$client.heKnowMe
+            go!: /Description
         else:
-            script:
-                $jsapi.startSession();
-                $response.replies = $response.replies || [];
-                $response.replies.push({
-                    type: "image",
-                    imageUrl: "https://i.ytimg.com/vi/JqLz0ULmGUY/maxresdefault.jpg",
-                    text: "К сожалению, в данный момент наш сервис поиска комплиментов не работает. Приносим свои извинения."
-                });
+            buttons:
+                "Напомни кто ты" -> /Description
+                "Перейти к функцианалу" -> /AdultOrdinaryChoice
+        script:
+            $client.heKnowMe = true;
+    state: Description
+        q: $whoYou
+        a: {{$injector.botDescription}}
+    state: AdultOrdinaryChoice
+        q: перейти к функционалу
+        # script: 
+        #     $temp.somethingFun = getSomethingFun(11);
+        # if: $temp.somethingFun
+        #     a: {{$temp.somethingFun}}
+        # else:
+        #     script:
+        #         $jsapi.startSession();
+        #         $response.replies = $response.replies || [];
+        #         $response.replies.push({
+        #             type: "image",
+        #             imageUrl: "https://i.ytimg.com/vi/JqLz0ULmGUY/maxresdefault.jpg",
+        #             text: "К сожалению, в данный момент наш сервис поиска комплиментов не работает. Приносим свои извинения."
+        #         });
     
