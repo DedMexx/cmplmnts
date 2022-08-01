@@ -52,7 +52,7 @@ theme: /
         a: Напомнить тебе, кто я, или перейдём к работе?
         buttons:
             "Напомни кто ты" -> /Remind/Description
-            "Перейти к работе" -> /Remind/StartWork
+            "Перейти к подбору" -> /Remind/StartWork
         state: Description
             q!: $whoYou
             a: {{$injector.botDescription}}

@@ -18,5 +18,81 @@
         <a state="/NormalOrAdult"/>
         <q>С приличием</q>
         <a state="/Result"/>
+        <q>Нет</q>
+        <a state="/Bye"/>
     </test-case>
+    
+    <test-case>
+        <context var="client">
+            {"heKnowMe": "true"}
+        </context>
+        <q>/start</q>
+        <a state="/Welcome"/>
+        <a state="/Remind"/>
+        <q>Напомни</q>
+        <a state="/Remind/Description"/>
+        <a state="/Remind/Description"/>
+        <q>Да</q>
+        <a state="/TypeChoice"/>
+        <q>Анекдот</q>
+        <a state="/Okey"/>
+        <a state="/NormalOrAdult"/>
+        <q>С приличием</q>
+        <a state="/Result"/>
+        <q>Да!</q>
+        <a state="/TypeChoice"/>
+        <q>Тост</q>
+        <a state="/Okey"/>
+        <a state="/NormalOrAdult"/>
+        <q>С приличием</q>
+        <a state="/Result"/>
+        <q>Нет</q>
+        <a state="/Bye"/>
+    </test-case>
+    
+    <test-case>
+        <context var="client">
+            {"heKnowMe": "true"}
+        </context>
+        <q>/start</q>
+        <a state="/Welcome"/>
+        <a state="/Remind"/>
+        <q>Перейти к подбору</q>
+        <a state="/Remind/StartWork"/>
+        <a state="/TypeChoice"/>
+        <q>Анекдот</q>
+        <a state="/Okey"/>
+        <a state="/NormalOrAdult"/>
+        <q>С приличием</q>
+        <a state="/Result"/>
+        <q>Да!</q>
+        <a state="/TypeChoice"/>
+        <q>Тост</q>
+        <a state="/Okey"/>
+        <a state="/NormalOrAdult"/>
+        <q>С приличием</q>
+        <a state="/Result"/>
+        <q>Нет</q>
+        <a state="/Bye"/>
+    </test-case>
+    
+    <test-case>
+        <context var="client">
+            {"heKnowMe": "true"}
+        </context>
+        <q>/start</q>
+        <a state="/Welcome"/>
+        <a state="/Remind"/>
+        <q>Пока</q>
+        <a state="/Bye"/>
+    </test-case>
+    
+    <test-case>
+            <q>/start</q>
+            <a state="/Welcome"/>
+            <a state="/Remind/Description"/>
+            <a state="/Remind/Description"/>
+            <q>Нет</q>
+            <a state="/Rejected"/>
+        </test-case>
 </test>
