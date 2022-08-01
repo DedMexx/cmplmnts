@@ -48,24 +48,25 @@ theme: /
         script:
             $client.heKnowMe = true;
             
-    state: Remind
-        q: Отмена
+    state: Remind || modal = true
         a: Напомнить тебе, кто я, или перейдём к работе?
         buttons:
             "Напомни кто ты" -> /Remind/Description
-            "Перейти к работе" -> ../AdultOrdinaryChoice
+            "Перейти к работе" -> /Remind/StartWork
         state: Description
             q: $whoYou
             a: {{$injector.botDescription}}
             a: Ну что, начнём?
             buttons:
-                "Перейти к работе" -> /AdultOrdinaryChoice
-
-            
-    state: AdultOrdinaryChoice
-        q: $startWork
-        a: Хорошо, начнём!
+                "Перейти к работе" -> /Remind/StartWork
+        state: StartWork
+            q: $startWork
+            a: Хорошо, начнём!
+            go!: /AdultOrdinaryChoice
     
+    state: AdultOrdinaryChoice
+        q: да
+        a: Опа
     state: CatchAll || noContext = true
         event!: noMatch
         a: Извините, я вас не понял. Переформулируйте, пожалуйста.
