@@ -15,25 +15,7 @@
     },
     "shared" : false
   },
-  "intents" : [ {
-    "id" : 11512479,
-    "path" : "/пока",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "пока"
-    } ],
-    "priority" : 0
-  }, {
-    "id" : 11512480,
-    "path" : "/привет",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "привет"
-    } ],
-    "priority" : 0
-  } ],
+  "intents" : [ ],
   "entities" : [ ],
   "enabledSystemEntities" : [ "duckling.number", "duckling.time", "duckling.duration", "duckling.phone-number", "duckling.email", "duckling.url" ],
   "spellerDictionary" : [ ],

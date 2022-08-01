@@ -57,17 +57,24 @@ theme: /
         state: Description
             q: $whoYou
             a: {{$injector.botDescription}}
-            a: Ну что, начнём?
+            random:
+                a: Итак, давай начнём?
+                a: Ну что, начнём?
+                a: Что ж, можем начать?
             buttons:
                 "Перейти к работе" -> /Remind/StartWork
         state: StartWork
             q: $startWork
-            a: Хорошо, начнём!
+            random:
+                a: Хорошо, начнём!
+                a: Поехали!
+                a: Хорошо
             go!: /TypeChoice
     
     state: TypeChoice
         q: $typeChoice
-        a: Для начала выбери, ты хочешь:
+        intent!: /whatYouWant
+        a: Для начала выбери, что ты хочешь:
             1 - Анекдот
             2 - Рассказ
             3 - Стишок
@@ -83,9 +90,29 @@ theme: /
             "Цитату"
             "Тост"
             "Статус"
+    state: NormalOrAdult
+        q: $whatYouWant
+        script:
+            $session.choice = $parseTree._whatYouWant;
+        random:
+            a: Хорошо
+            a: Понял
+        a: Ты хочешь с приличием или 18+?
+        buttons:
+            "С приличием"
+            "18+"
+    state: Result
+        q: $NormalOrAdult
+        script:
+            $session.NormalOrAdult = $parseTree._NormalOrAdult;
+        random:
+            a: Готово:
+            a: Хорошо, вот:
+        
+    
     state: CatchAll || noContext = true
         event!: noMatch
-        a: Извините, я вас не понял. Переформулируйте, пожалуйста.
+        a: Извини, я тебя не понял. Переформулируй, пожалуйста.
         go!: {{$session.lastState}}
     
     state: CatchBadWords || noContext = true
@@ -95,7 +122,7 @@ theme: /
             $response.replies.push({
                 type: "image",
                 imageUrl: "https://fikiwiki.com/uploads/posts/2022-02/1644818975_36-fikiwiki-com-p-kartinki-ti-ne-khochesh-so-mnoi-obshchatsy-39.jpg",
-                text: "Пожалуйста, не обижайте меня, я ведь хочу вам помочь :)"
+                text: "Пожалуйста, не обижай меня, я ведь хочу тебе помочь :)"
             });
         go!: {{$session.lastState}}
         
