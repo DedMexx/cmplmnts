@@ -20,10 +20,10 @@ theme: /
     state: Welcome
         q!: $regex</start>
         q!: *start
-        q!: $hello
+        q: $hello || fromState = /Remind, onlyThisState = true
         script:
             var timestamp = moment($jsapi.currentTime());
-            var hour = Number(timestamp.format("HH")) + 2; // Прибавляем до московского времени (почему то изначально на 2 часа меньше)
+            var hour = Number(timestamp.format("HH")) + 2; // Прибавляем до московского времени (почему-то изначально на 2 часа меньше)
             if (hour >= 5 && hour < 11) {
                 $temp.goodTimeOfDay = 'Доброе утро!';     
             }
@@ -62,17 +62,32 @@ theme: /
         state: StartWork
             q: $startWork
             a: Хорошо, начнём!
-            go!: /AdultOrdinaryChoice
+            go!: /TypeChoice
     
-    state: AdultOrdinaryChoice
-        q: да
-        a: Опа
+    state: TypeChoice
+        q: $typeChoice
+        a: Для начала выбери, ты хочешь:
+            <br><br>1 - Анекдот
+            <br>2 - Рассказ
+            <br>3 - Стишок
+            <br>4 - Афоризм
+            <br>5 - Цитату
+            <br>6 - Тост
+            <br>7 - Статус
+        buttons:
+            "Анекдот"
+            "Рассказ"
+            "Стишок"
+            "Афоризм"
+            "Цитату"
+            "Тост"
+            "Статус"
     state: CatchAll || noContext = true
         event!: noMatch
         a: Извините, я вас не понял. Переформулируйте, пожалуйста.
         go!: {{$session.lastState}}
     
-    state: CatchBadWords || NoContext = true
+    state: CatchBadWords || noContext = true
         q!: * $obsceneWord *
         script:
             $response.replies = $response.replies || [];
