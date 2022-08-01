@@ -20,7 +20,8 @@ theme: /
     state: Welcome
         q!: $regex</start>
         q!: *start
-        q: $hello || fromState = /Remind, onlyThisState = true
+        q!: $hello
+        q: $hello
         script:
             var timestamp = moment($jsapi.currentTime());
             var hour = Number(timestamp.format("HH")) + 3; // Прибавляем до московского времени (почему-то изначально на 3 часа меньше)
@@ -48,7 +49,7 @@ theme: /
         script:
             $client.heKnowMe = true;
             
-    state: Remind || modal = true
+    state: Remind
         a: Напомнить тебе, кто я, или перейдём к работе?
         buttons:
             "Напомни кто ты" -> /Remind/Description
@@ -62,6 +63,7 @@ theme: /
                 a: Что ж, можем начать?
             buttons:
                 "Перейти к работе" -> /TypeChoice
+            q: $typeChoice || toState = /TypeChoice, onlyThisState = true
         state: StartWork
             q: $startWork
             random:
@@ -71,7 +73,7 @@ theme: /
             go!: /TypeChoice
     
     state: TypeChoice
-        q: $typeChoice
+        q: $yesNew || fromState = /Result, onlyThisState = true
         a: Для начала выбери, что ты хочешь:
             1 - Анекдот
             2 - Рассказ
@@ -127,7 +129,7 @@ theme: /
             a: {{$temp.somethingFun}}
             a: Ну что, подсказать тебе снова?
             buttons:
-                "Да!"
+                "Да!" -> /TypeChoice
         else:
             script:
                 $jsapi.startSession();
