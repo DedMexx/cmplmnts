@@ -138,14 +138,16 @@ theme: /
             $temp.somethingFun = getSomethingFun($context.session.whatType);
         if: $temp.somethingFun
             a: {{$temp.somethingFun}}
-            a: Ну что, подсказать тебе снова?
+            random:
+                a: Попробовать подобрать тебе снова?
+                a: Хочешь, чтоб я что нибудь подобрал?
+                a: Давай я попробую снова помочь тебе?
             buttons:
                 "Да!" -> /TypeChoice
             script:
                 $jsapi.stopSession();
         else:
             script:
-                # $jsapi.startSession();
                 $response.replies = $response.replies || [];
                 $response.replies.push({
                     type: "image",
@@ -156,7 +158,10 @@ theme: /
         
     state: CatchAll || noContext = true
         event!: noMatch
-        a: Извини, я тебя не понял. Переформулируй, пожалуйста.
+        random:
+            a: Извини, я тебя не понял. Переформулируй, пожалуйста
+            a: Не понимаю тебя. Скажи по другому, пожалуйста
+            a: Не смог уяснить. Перефразируй, пожалуйста
         go!: {{$session.lastState}}
     
     state: CatchBadWords || noContext = true
@@ -179,3 +184,11 @@ theme: /
             a: Хорошо, пиши мне ещё!
         script:
             $jsapi.stopSession();
+    
+    state: What || noContext = true
+        q!: $what
+        random:
+            a: Повторю:
+            a: Смотри:
+            a: Ещё раз:
+        go!: {{$session.lastState}}

@@ -1,0 +1,43 @@
+{
+  "positions" : [ {
+    "id" : "/Welcome",
+    "x" : 0,
+    "y" : 0
+  }, {
+    "id" : "/Remind",
+    "x" : 0,
+    "y" : 906
+  }, {
+    "id" : "/Rejected",
+    "x" : 0,
+    "y" : 1148
+  }, {
+    "id" : "/TypeChoice",
+    "x" : 0,
+    "y" : 1572
+  }, {
+    "id" : "/Okey",
+    "x" : 0,
+    "y" : 2234
+  }, {
+    "id" : "/NormalOrAdult",
+    "x" : 0,
+    "y" : 2741
+  }, {
+    "id" : "/Result",
+    "x" : 0,
+    "y" : 3122
+  }, {
+    "id" : "/CatchAll",
+    "x" : 0,
+    "y" : 4149
+  }, {
+    "id" : "/CatchBadWords",
+    "x" : 0,
+    "y" : 4581
+  }, {
+    "id" : "/Bye",
+    "x" : 0,
+    "y" : 5055
+  } ]
+}
