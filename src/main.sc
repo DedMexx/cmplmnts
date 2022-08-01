@@ -73,7 +73,9 @@ theme: /
                 a: Поехали!
                 a: Хорошо
             go!: /TypeChoice
-    state: /Rejected
+            
+    #Стейт для "Нет"
+    state: /Rejected 
         random:
             a: Тогда, боюсь, я больше ничем не могу тебе помочь
             a: Хорошо, но ты можешь писать мне когда хочешь!
@@ -81,6 +83,7 @@ theme: /
             a: Окей, но я надеюсь, что я ещё смогу поднять тебе настроение!
         script:
             $jsapi.stopSession();
+            
     state: TypeChoice
         q: $yesNew || fromState = /Result, onlyThisState = true
         a: Для начала выбери, что ты хочешь:

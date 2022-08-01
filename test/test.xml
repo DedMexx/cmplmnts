@@ -1,1 +1,10 @@
-<test></test>
+<test>
+    <test-case>
+        <q>/start</q>
+        <a state="/Welcome"/>
+        <a state="/Remind/Description"/>
+        <a state="/Remind/Description"/>
+        <q>Да</q>
+        <a state="/TypeChoice"/>
+    </test-case>
+</test>
