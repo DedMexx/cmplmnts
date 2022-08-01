@@ -20,6 +20,7 @@ theme: /
     state: Welcome
         q!: $regex</start>
         q!: *start
+        q!: $hello
         q: $hello || fromState = /Remind, onlyThisState = true
         script:
             var timestamp = moment($jsapi.currentTime());
