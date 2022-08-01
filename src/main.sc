@@ -20,8 +20,7 @@ theme: /
     state: Welcome
         q!: $regex</start>
         q!: *start
-        q!: $hello
-        q: $hello || fromState = /Remind, onlyThisState = true
+        q: $hello || fromState = /Remind, onlyThisState = false
         script:
             var timestamp = moment($jsapi.currentTime());
             var hour = Number(timestamp.format("HH")) + 3; // Прибавляем до московского времени (почему-то изначально на 3 часа меньше)
@@ -62,7 +61,8 @@ theme: /
                 a: Ну что, начнём?
                 a: Что ж, можем начать?
             buttons:
-                "Перейти к работе" -> /Remind/StartWork
+                "Перейти к работе" -> /TypeChoice
+            q: $typeChoice || toState = /TypeChoice, onlyThisState = true
         state: StartWork
             q: $startWork
             random:
@@ -72,7 +72,7 @@ theme: /
             go!: /TypeChoice
     
     state: TypeChoice
-        q: $typeChoice
+        q: $typeChoice || fromState = /Result, onlyThisState = true
         a: Для начала выбери, что ты хочешь:
             1 - Анекдот
             2 - Рассказ
@@ -113,15 +113,22 @@ theme: /
             var normal = ['с приличием', 'приличный', 'детский', 'с цензурой', 'цензурный'];
             var adult = ['взрослый', '18+', 'без приличия', 'без цензуры', 'бесцензурный'];
             $context.session.whatType = arrayOfTypes.indexOf($session.choice.toLowerCase()) + 1;
+            if (Number($session.choice) == $session.choice) {
+                $context.session.whatType = Number($session.choice); 
+            }
             if ($context.session.whatType == 7) {
                 $context.session.whatType += 1;
-                }
+            }
             if (normal.indexOf($session.normalOrAdult.toLowerCase()) == -1){
                 $context.session.whatType += 10;
-                }
+            }
+            log($context.session.whatType);
             $temp.somethingFun = getSomethingFun($context.session.whatType);
         if: $temp.somethingFun
             a: {{$temp.somethingFun}}
+            a: Ну что, подсказать тебе снова?
+            buttons:
+                "Да!"
         else:
             script:
                 $jsapi.startSession();
@@ -129,7 +136,7 @@ theme: /
                 $response.replies.push({
                     type: "image",
                     imageUrl: "https://i.ytimg.com/vi/JqLz0ULmGUY/maxresdefault.jpg",
-                    text: "К сожалению, в данный момент наш сервис поиска комплиментов не работает. Приносим свои извинения."
+                    text: "К сожалению, в данный момент наш сервис поиска комплиментов не работает, попробуйте позже. Приносим свои извинения."
                 });
         
     state: CatchAll || noContext = true
