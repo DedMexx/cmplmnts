@@ -18,7 +18,7 @@ init:
 
 theme: /
     state: Welcome
-        q: $regex</start> || fromState = /Remind, onlyThisState = true
+        q!: $regex</start>
         q!: *start
         q: $hello || fromState = /Remind, onlyThisState = true
         script:
