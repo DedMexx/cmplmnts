@@ -17,6 +17,7 @@ theme: /
         q!: *start
         q!: $hello
         script:
+            $jsapi.startSession();
             var timestamp = moment($jsapi.currentTime());
             var hour = Number(timestamp.format("HH")) + 2; // Прибавляем до московского времени (почему то изначально на 2 часа меньше)
             if (hour >= 5 && hour < 11) {
@@ -41,14 +42,26 @@ theme: /
         else:
             buttons:
                 "Напомни кто ты" -> /Description
-                "Перейти к функцианалу" -> /AdultOrdinaryChoice
+                "Перейти к работе" -> /AdultOrdinaryChoice
         script:
             $client.heKnowMe = true;
+            
+    state: CatchAll || noContext = true
+        event!: noMatch
+        a: Извините, я вас не понял. Переформулируйте, пожалуйста.
+        go!: {{$session.lastState}}
+        
     state: Description
         q: $whoYou
         a: {{$injector.botDescription}}
+        buttons:
+            "Перейти к работе" -> /AdultOrdinaryChoice
     state: AdultOrdinaryChoice
-        q: перейти к функционалу
+        q: $startWork
+        a: Начнём
+        
+        
+        
         # script: 
         #     $temp.somethingFun = getSomethingFun(11);
         # if: $temp.somethingFun
