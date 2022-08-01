@@ -47,8 +47,6 @@ theme: /
             go!: /Remind/Description
         else:
             go!: /Remind
-        script:
-            $client.heKnowMe = true;
             
     state: Remind
         a: Напомнить тебе, кто я, или перейдём к работе?
@@ -62,6 +60,8 @@ theme: /
                 a: Итак, давай начнём?
                 a: Ну что, начнём?
                 a: Что ж, можем начать?
+            script:
+                $client.heKnowMe = true;
             buttons:
                 "Перейти к подбору" -> /TypeChoice
             q: $typeChoice || toState = /TypeChoice, onlyThisState = true
