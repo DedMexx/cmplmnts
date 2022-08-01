@@ -53,17 +53,21 @@ theme: /
         buttons:
             "Напомни кто ты" -> /Description
             "Перейти к работе" -> /AdultOrdinaryChoice
-        
-    state: Description
-        q: $whoYou
-        a: {{$injector.botDescription}}
-        a: Ну что, начнём?
-        buttons:
-            "Перейти к работе" -> /AdultOrdinaryChoice
+     
+        state: Description
+            q: $whoYou
+            a: {{$injector.botDescription}}
+            a: Ну что, начнём?
+            buttons:
+                "Перейти к работе" -> /AdultOrdinaryChoice
+                
+        state: AdultOrdinaryChoice
+            q: $startWork
+            a: Хорошо, начнём!
+            go!: /startWork
             
-    state: AdultOrdinaryChoice
-        q: $startWork
-        a: Начнём
+    state: startWork
+        
     
     state: CatchAll || noContext = true
         event!: noMatch
