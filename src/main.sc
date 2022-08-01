@@ -20,7 +20,8 @@ theme: /
     state: Welcome
         q!: $regex</start>
         q!: *start
-        q: $hello || fromState = /Remind, onlyThisState = false
+        q!: $hello
+        q: $hello || fromState = /Remind, onlyThisState = true
         script:
             var timestamp = moment($jsapi.currentTime());
             var hour = Number(timestamp.format("HH")) + 3; // Прибавляем до московского времени (почему-то изначально на 3 часа меньше)
@@ -62,7 +63,7 @@ theme: /
                 a: Что ж, можем начать?
             buttons:
                 "Перейти к работе" -> /TypeChoice
-            q: $typeChoice || toState = /TypeChoice, onlyThisState = true
+            q: $typeChoice
         state: StartWork
             q: $startWork
             random:
@@ -72,7 +73,7 @@ theme: /
             go!: /TypeChoice
     
     state: TypeChoice
-        q: $typeChoice || fromState = /Result, onlyThisState = true
+        q: $typeChoice
         a: Для начала выбери, что ты хочешь:
             1 - Анекдот
             2 - Рассказ
