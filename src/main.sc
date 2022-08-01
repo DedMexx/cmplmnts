@@ -23,6 +23,7 @@ theme: /
         q!: $hello
         q: $hello
         script:
+            $jsapi.startSession();
             var timestamp = moment($jsapi.currentTime());
             var hour = Number(timestamp.format("HH")) + 3; // Прибавляем до московского времени (почему-то изначально на 3 часа меньше)
             if (hour >= 5 && hour < 11) {
@@ -55,15 +56,16 @@ theme: /
             "Напомни кто ты" -> /Remind/Description
             "Перейти к работе" -> /Remind/StartWork
         state: Description
-            q: $whoYou
+            q!: $whoYou
             a: {{$injector.botDescription}}
             random:
                 a: Итак, давай начнём?
                 a: Ну что, начнём?
                 a: Что ж, можем начать?
             buttons:
-                "Перейти к работе" -> /TypeChoice
+                "Перейти к подбору" -> /TypeChoice
             q: $typeChoice || toState = /TypeChoice, onlyThisState = true
+            q: $no || toState = /Rejected, onlyThisState = true
         state: StartWork
             q: $startWork
             random:
@@ -71,7 +73,14 @@ theme: /
                 a: Поехали!
                 a: Хорошо
             go!: /TypeChoice
-    
+    state: /Rejected
+        random:
+            a: Тогда, боюсь, я больше ничем не могу тебе помочь
+            a: Хорошо, но ты можешь писать мне когда хочешь!
+            a: Ладно, но я буду ждать твоего сообщения!
+            a: Окей, но я надеюсь, что я ещё смогу поднять тебе настроение!
+        script:
+            $jsapi.stopSession();
     state: TypeChoice
         q: $yesNew || fromState = /Result, onlyThisState = true
         a: Для начала выбери, что ты хочешь:
@@ -91,13 +100,15 @@ theme: /
             "Тост"
             "Статус"
             
-    state: NormalOrAdult
+    state: Okey
         q: $whatYouWant
         script:
             $session.choice = $parseTree._whatYouWant;
         random:
             a: Хорошо
             a: Понял
+        go!: /NormalOrAdult
+    state: NormalOrAdult
         a: Ты хочешь с приличием или 18+?
         buttons:
             "С приличием"
@@ -130,15 +141,18 @@ theme: /
             a: Ну что, подсказать тебе снова?
             buttons:
                 "Да!" -> /TypeChoice
+            script:
+                $jsapi.stopSession();
         else:
             script:
-                $jsapi.startSession();
+                # $jsapi.startSession();
                 $response.replies = $response.replies || [];
                 $response.replies.push({
                     type: "image",
                     imageUrl: "https://i.ytimg.com/vi/JqLz0ULmGUY/maxresdefault.jpg",
                     text: "К сожалению, в данный момент наш сервис поиска комплиментов не работает, попробуйте позже. Приносим свои извинения."
                 });
+               $jsapi.stopSession();
         
     state: CatchAll || noContext = true
         event!: noMatch
@@ -155,8 +169,13 @@ theme: /
                 text: "Пожалуйста, не обижай меня, я ведь хочу тебе помочь :)"
             });
         go!: {{$session.lastState}}
-        
-        
-        
-
     
+    state: Bye || noContext = true
+        q!: $bye
+        random:
+            a: Пока!
+            a: До новых встреч!
+            a: Удачи в твоих делах!
+            a: Хорошо, пиши мне ещё!
+        script:
+            $jsapi.stopSession();
