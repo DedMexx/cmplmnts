@@ -24,7 +24,7 @@ theme: /
         q: $hello || fromState = /Remind, onlyThisState = true
         script:
             var timestamp = moment($jsapi.currentTime());
-            var hour = Number(timestamp.format("HH")) + 2; // Прибавляем до московского времени (почему-то изначально на 2 часа меньше)
+            var hour = Number(timestamp.format("HH")) + 3; // Прибавляем до московского времени (почему-то изначально на 3 часа меньше)
             if (hour >= 5 && hour < 11) {
                 $temp.goodTimeOfDay = 'Доброе утро!';     
             }
@@ -73,7 +73,6 @@ theme: /
     
     state: TypeChoice
         q: $typeChoice
-        intent!: /whatYouWant
         a: Для начала выбери, что ты хочешь:
             1 - Анекдот
             2 - Рассказ
@@ -90,6 +89,7 @@ theme: /
             "Цитату"
             "Тост"
             "Статус"
+            
     state: NormalOrAdult
         q: $whatYouWant
         script:
@@ -101,15 +101,37 @@ theme: /
         buttons:
             "С приличием"
             "18+"
+            
     state: Result
-        q: $NormalOrAdult
-        script:
-            $session.NormalOrAdult = $parseTree._NormalOrAdult;
+        q: $normalOrAdult
         random:
             a: Готово:
             a: Хорошо, вот:
+        script: 
+            $session.normalOrAdult = $parseTree._normalOrAdult;
+            var arrayOfTypes = ['анекдот', 'рассказ', 'стишок', 'афоризм', 'цитату', 'тост', 'статус'];
+            var normal = ['с приличием', 'приличный', 'детский', 'с цензурой', 'цензурный'];
+            var adult = ['взрослый', '18+', 'без приличия', 'без цензуры', 'бесцензурный'];
+            $context.session.whatType = arrayOfTypes.indexOf($session.choice.toLowerCase()) + 1;
+            if ($context.session.whatType == 7) {
+                $context.session.whatType += 1;
+                }
+            if (normal.indexOf($session.normalOrAdult.toLowerCase()) == -1){
+                $context.session.whatType += 10;
+                }
+            $temp.somethingFun = getSomethingFun($context.session.whatType);
+        if: $temp.somethingFun
+            a: {{$temp.somethingFun}}
+        else:
+            script:
+                $jsapi.startSession();
+                $response.replies = $response.replies || [];
+                $response.replies.push({
+                    type: "image",
+                    imageUrl: "https://i.ytimg.com/vi/JqLz0ULmGUY/maxresdefault.jpg",
+                    text: "К сожалению, в данный момент наш сервис поиска комплиментов не работает. Приносим свои извинения."
+                });
         
-    
     state: CatchAll || noContext = true
         event!: noMatch
         a: Извини, я тебя не понял. Переформулируй, пожалуйста.
@@ -128,17 +150,5 @@ theme: /
         
         
         
-        # script: 
-        #     $temp.somethingFun = getSomethingFun(11);
-        # if: $temp.somethingFun
-        #     a: {{$temp.somethingFun}}
-        # else:
-        #     script:
-        #         $jsapi.startSession();
-        #         $response.replies = $response.replies || [];
-        #         $response.replies.push({
-        #             type: "image",
-        #             imageUrl: "https://i.ytimg.com/vi/JqLz0ULmGUY/maxresdefault.jpg",
-        #             text: "К сожалению, в данный момент наш сервис поиска комплиментов не работает. Приносим свои извинения."
-        #         });
+
     
