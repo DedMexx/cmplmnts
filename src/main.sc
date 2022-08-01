@@ -102,6 +102,10 @@ theme: /
             "Цитату"
             "Тост"
             "Статус"
+        state: LocalCatchAll
+            event: noMatch
+            a: Пожалуйста, выбери из этого списка
+            go: ..
             
     state: Okey
         q: $whatYouWant
