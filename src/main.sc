@@ -111,6 +111,7 @@ theme: /
             a: Хорошо
             a: Понял
         go!: /NormalOrAdult
+        
     state: NormalOrAdult
         a: Ты хочешь с приличием или 18+?
         buttons:
@@ -147,6 +148,7 @@ theme: /
                 a: Давай я попробую снова помочь тебе?
             buttons:
                 "Да!" -> /TypeChoice
+                "Нет" -> /Bye
             script:
                 $jsapi.stopSession();
         else:
@@ -179,6 +181,7 @@ theme: /
         go!: {{$session.lastState}}
     
     state: Bye || noContext = true
+        q: $no || fromState = /Result, onlyThisState = true
         q!: $bye
         random:
             a: Пока!
